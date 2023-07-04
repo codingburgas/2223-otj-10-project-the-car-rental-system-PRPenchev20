@@ -24,6 +24,7 @@ std::vector<VehicleModel> VehicleService::getAllVehicles()
 void VehicleService::updateVehicle(int id, int newYear, const std::string& newManufacturer, const std::string& newModel, const std::string& newFuel)
 {
     VehicleModel newVehicle(id, newYear, newManufacturer, newModel, newFuel);
+    
     repository.updateVehicle(newVehicle);
 }
 

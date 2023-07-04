@@ -40,24 +40,26 @@ void VehicleController::run()
 
             system("cls");
 
-            std::cout << "|-------------------------\n";
-            std::cout << "|   Enter manufacturer: ";
+            std::cout << "|-------------------------------------|\n";
+            std::cout << "| Enter the new vehicle's parameters! |\n";
+            std::cout << "|-------------------------------------|\n|\n";
+            std::cout << "|    Enter manufacturer: ";
             std::cin.ignore();
             std::getline(std::cin, manufacturer);
 
-            std::cout << "|   Enter model: ";
+            std::cout << "|    Enter model: ";
             std::getline(std::cin, model);
 
-            std::cout << "|   Enter fuel: ";
+            std::cout << "|    Enter fuel: ";
             std::getline(std::cin, fuel);
 
-            std::cout << "|   Enter year: ";
+            std::cout << "|    Enter year: ";
             std::cin >> year;
 
             service.createVehicle(0, year, manufacturer, model, fuel);
 
-            std::cout << "Vehicle added successfully." << std::endl;
-
+            std::cout << "|    ";
+            system("pause");
             break;
         }
         case 2: 
@@ -87,46 +89,50 @@ void VehicleController::run()
         }
         case 3: 
         {
+            system("cls");
             int id, newYear;
-            std::string oldManufacturer, oldModel, oldFuel, newManufacturer, newModel, newFuel;
+            std::string newManufacturer, newModel, newFuel;
 
-            std::cout << "|-------------------------\n";
-            std::cout << "|  Enter the details of the vehicle to update:" << std::endl;
+            std::cout << "|------------------------------------------------|\n";
+            std::cout << "|    Enter the details of the vehicle to update! |" << std::endl;
+            std::cout << "|------------------------------------------------|\n";
 
             
-            std::cout << "|  Enter vehicle's id: ";
+            std::cout << "|    Enter vehicle's id: ";
             std::cin >> id;
 
 
-            std::cout << "|  Enter new manufacturer: ";
+            std::cout << "|\n|    Enter new manufacturer: ";
             std::cin.ignore();
             std::getline(std::cin, newManufacturer);
 
-            std::cout << "|  Enter new model: ";
+            std::cout << "|    Enter new model: ";
             std::getline(std::cin, newModel);
 
-            std::cout << "|  Enter new fuel: ";
+            std::cout << "|    Enter new fuel: ";
             std::getline(std::cin, newFuel);
 
-            std::cout << "|  Enter new year: ";
+            std::cout << "|    Enter new year: ";
             std::cin >> newYear;
-
+            std::cout << "|\n";
             service.updateVehicle(id, newYear, newManufacturer, newModel, newFuel);
             
+            std::cout << "|\n";
+            std::cout << "|    \n|    \n|    ";
             system("pause");
             break;
         }
         case 4: 
         {
+            system("cls");
             int id, year;
             std::string manufacturer, model, fuel;
 
             std::cout << "|-------------------------\n";
-            std::cout << "|  Enter the id of the vehicle to delete:" << std::endl;
+            std::cout << "|  Enter the id of the vehicle to delete: ";
             std::cin >> id;
 
-
-            std::cout << "\n|  Now enter the vehicle's parameters!\n";
+            std::cout << "|\n|  Now enter the vehicle's parameters!\n";
 
             std::cout << "|  Enter manufacturer: ";
             std::cin.ignore();
@@ -149,16 +155,19 @@ void VehicleController::run()
         {
             service.deleteAllVehicles();
 
+            std::cout << "|    ";
             system("pause");
             break;
         }
         case 0:
-            std::cout << "Exiting the application. Goodbye!" << std::endl;
+            std::cout << "|-------------------------------------|";
+            std::cout << "\n|\n|    Exiting the application. Goodbye!" << std::endl;
+            std::cout << "|";
 
             break;
         default:
 
-            std::cout << "Invalid choice. Please try again." << std::endl;
+            std::cout << "|\n|\n|    Invalid choice. Please try again." << std::endl;
         }
 
         std::cout << std::endl;

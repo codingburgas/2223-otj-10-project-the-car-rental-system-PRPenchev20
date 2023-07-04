@@ -67,11 +67,11 @@ void VehicleRepository::addVehicle(VehicleModel& vehicle)
         file << number << "," << vehicle.getManufacturer() << "," << vehicle.getModel() << "," << vehicle.getFuel() << "," << vehicle.getYear() << std::endl;
         file.close();
 
-        std::cout << "Vehicle record created successfully." << std::endl;
+        std::cout << "|\n|\n|    Vehicle record created successfully." << std::endl;
     }
     else 
     {
-        std::cout << "Failed to open file for writing." << std::endl;
+        std::cout << "|    Failed to open file for writing." << std::endl;
     }
 }
 
@@ -146,25 +146,29 @@ void VehicleRepository::updateVehicle(const VehicleModel& newVehicle)
 
 
                 std::getline(lineString, token, ',');
+                int id = 0;
+                std::stringstream(token) >> id;
+
+                std::getline(lineString, token, ',');
                 std::string manufacturer = token;
 
                 std::getline(lineString, token, ',');
                 std::string model = token;
 
                 std::getline(lineString, token, ',');
-                std::getline(lineString, token);
                 std::string fuel = token;
 
+                std::getline(lineString, token);
                 int yearInt = 0;
                 std::stringstream(token) >> yearInt;
 
-                VehicleModel currentVehicle(newVehicle.getId(), yearInt, manufacturer, model, fuel);
+                VehicleModel currentVehicle(id, yearInt, manufacturer, model, fuel);
 
                 if (currentVehicle.getId() == newVehicle.getId())
                 {
                     fileOut << newVehicle.getId() <<  "," << newVehicle.getManufacturer() << "," << newVehicle.getModel() << "," << newVehicle.getFuel() << "," << newVehicle.getYear() << std::endl;
 
-                    std::cout << "Vehicle record updated successfully." << std::endl;
+                    std::cout << "|\n|    Vehicle record updated successfully." << std::endl;
                 }
                 else 
                 {
@@ -205,6 +209,7 @@ void VehicleRepository::removeAllVehicles()
             {
                 anyVehicleDeleted = true; // Set the flag to true
 
+                std::cout << "|------------------------------------------------------------" << std::endl;
                 std::cout << "|   Vehicle record deleted: " << line << std::endl;
             }
 
@@ -215,11 +220,12 @@ void VehicleRepository::removeAllVehicles()
 
             if (anyVehicleDeleted)
             {
-                std::cout << "|\n|   All vehicle records deleted successfully!" << std::endl;
+                std::cout << "|------------------------------------------------------------" << std::endl;
+                std::cout << "|\n|\n|    All vehicle records deleted successfully!" << std::endl;
             }
             else
             {
-                std::cout << "No vehicle records found!" << std::endl;
+                std::cout << "|\n|\n|    No vehicle records found!" << std::endl;
             }
         }
         else
