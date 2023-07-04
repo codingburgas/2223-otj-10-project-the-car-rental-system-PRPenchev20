@@ -15,17 +15,17 @@ void VehicleController::run()
     {
         // Display menu options
         system("cls");
-        std::cout << "---------------------------" << std::endl;
-        std::cout << "Vehicle Management Application" << std::endl;
-        std::cout << "---------------------------" << std::endl;
-        std::cout << "1. Add a new vehicle" << std::endl;
-        std::cout << "2. View all vehicles" << std::endl;
-        std::cout << "3. Update a vehicle" << std::endl;
-        std::cout << "4. Delete a vehicle" << std::endl;
-        std::cout << "5. Delete all vehicles recorded" << std::endl;
-        std::cout << "0. Exit" << std::endl;
-        std::cout << "---------------------------" << std::endl;
-        std::cout << "Enter your choice: ";
+        std::cout << "|-------------------------------------|" << std::endl;
+        std::cout << "|    Vehicle Management Application   |" << std::endl;
+        std::cout << "|-------------------------------------|" << std::endl;
+        std::cout << "|    1. Add a new vehicle             |" << std::endl;
+        std::cout << "|    2. View all vehicles             |" << std::endl;
+        std::cout << "|    3. Update a vehicle              |" << std::endl;
+        std::cout << "|    4. Delete a vehicle              |" << std::endl;
+        std::cout << "|    5. Delete all vehicles recorded  |" << std::endl;
+        std::cout << "|    0. Exit                          |" << std::endl;
+        std::cout << "|-------------------------------------|" << std::endl;
+        std::cout << "|    Enter your choice: ";
 
         std::cin >> choice;
 
@@ -36,22 +36,25 @@ void VehicleController::run()
         case 1: 
         {
             int year;
-            std::string make, model, fuel;
+            std::string manufacturer, model, fuel;
 
-            std::cout << "Enter year: ";
-            std::cin >> year;
+            system("cls");
 
-            std::cout << "Enter make: ";
+            std::cout << "|-------------------------\n";
+            std::cout << "|   Enter manufacturer: ";
             std::cin.ignore();
-            std::getline(std::cin, make);
+            std::getline(std::cin, manufacturer);
 
-            std::cout << "Enter model: ";
+            std::cout << "|   Enter model: ";
             std::getline(std::cin, model);
 
-            std::cout << "Enter fuel: ";
+            std::cout << "|   Enter fuel: ";
             std::getline(std::cin, fuel);
 
-            service.createVehicle(year, make, model, fuel);
+            std::cout << "|   Enter year: ";
+            std::cin >> year;
+
+            service.createVehicle(0, year, manufacturer, model, fuel);
 
             std::cout << "Vehicle added successfully." << std::endl;
 
@@ -60,85 +63,85 @@ void VehicleController::run()
         case 2: 
         {
             std::vector<VehicleModel> vehicles = service.getAllVehicles();
-
+            system("cls");
+            std::cout << "|-------------------------------------|\n";
             if (vehicles.empty()) 
             {
-                std::cout << "No vehicles found." << std::endl;
+                std::cout << "|\n|    No vehicles found!" << std::endl;
             }
             else 
             {
-                std::cout << "Vehicle List:" << std::endl;
+                std::cout << "|             Vehicle List:           |\n";
+                std::cout << "|-------------------------------------|\n";
 
                 for (const auto& vehicle : vehicles) 
                 {
                     vehicle.displayInfo();
 
-                    std::cout << std::endl;
+                    std::cout << "|-------------------------------------|\n";
                 }
             }
+            std::cout << "|    ";
             system("pause");
             break;
         }
         case 3: 
         {
-            int oldYear, newYear;
-            std::string oldMake, oldModel, oldFuel,newMake, newModel, newFuel;
+            int id, newYear;
+            std::string oldManufacturer, oldModel, oldFuel, newManufacturer, newModel, newFuel;
 
-            std::cout << "Enter the details of the vehicle to update:" << std::endl;
+            std::cout << "|-------------------------\n";
+            std::cout << "|  Enter the details of the vehicle to update:" << std::endl;
 
-            std::cout << "Enter old year: ";
-            std::cin >> oldYear;
+            
+            std::cout << "|  Enter vehicle's id: ";
+            std::cin >> id;
 
-            std::cout << "Enter old make: ";
+
+            std::cout << "|  Enter new manufacturer: ";
             std::cin.ignore();
-            std::getline(std::cin, oldMake);
+            std::getline(std::cin, newManufacturer);
 
-            std::cout << "Enter old model: ";
-            std::getline(std::cin, oldModel);
-
-            std::cout << "Enter old fuel: ";
-            std::getline(std::cin, oldFuel);
-
-
-            std::cout << "Enter new year: ";
-            std::cin >> newYear;
-
-            std::cout << "Enter new make: ";
-            std::cin.ignore();
-            std::getline(std::cin, newMake);
-
-            std::cout << "Enter new model: ";
+            std::cout << "|  Enter new model: ";
             std::getline(std::cin, newModel);
 
-            std::cout << "Enter new fuel: ";
+            std::cout << "|  Enter new fuel: ";
             std::getline(std::cin, newFuel);
 
-            service.updateVehicle(oldYear, oldMake, oldModel, oldFuel, newYear, newMake, newModel, newFuel);
+            std::cout << "|  Enter new year: ";
+            std::cin >> newYear;
+
+            service.updateVehicle(id, newYear, newManufacturer, newModel, newFuel);
             
             system("pause");
             break;
         }
         case 4: 
         {
-            int year;
-            std::string make, model, fuel;
+            int id, year;
+            std::string manufacturer, model, fuel;
 
-            std::cout << "Enter the details of the vehicle to delete:" << std::endl;
+            std::cout << "|-------------------------\n";
+            std::cout << "|  Enter the id of the vehicle to delete:" << std::endl;
+            std::cin >> id;
 
-            std::cout << "Enter year: ";
-            std::cin >> year;
 
-            std::cout << "Enter make: ";
+            std::cout << "\n|  Now enter the vehicle's parameters!\n";
+
+            std::cout << "|  Enter manufacturer: ";
             std::cin.ignore();
-            std::getline(std::cin, make);
+            std::getline(std::cin, manufacturer);
 
-            std::cout << "Enter model: ";
+            std::cout << "|  Enter model: ";
             std::getline(std::cin, model);
 
-            std::cout << "Enter fuel: ";
+            std::cout << "|  Enter fuel: ";
             std::getline(std::cin, fuel);
 
-            service.deleteVehicle(year, make, model, fuel);
+            std::cout << "|  Enter year: ";
+            std::cin >> year;
+
+            service.deleteVehicle(id, year, manufacturer, model, fuel);
 
             break;
         }

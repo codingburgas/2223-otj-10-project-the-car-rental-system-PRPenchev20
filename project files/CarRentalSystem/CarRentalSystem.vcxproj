@@ -141,6 +141,7 @@
     <ClCompile Include="VehicleService.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="IdCounter.txt" />
     <Text Include="Vehicles.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

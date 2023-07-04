@@ -15,16 +15,16 @@ class VehicleService
         VehicleService(const std::string& filename);
 
         // Create a new vehicle record
-        void createVehicle(int year, const std::string& make, const std::string& model, const std::string& fuel);
+        void createVehicle(int id, int year, const std::string& make, const std::string& model, const std::string& fuel);
 
         // Read all vehicle records
         std::vector<VehicleModel> getAllVehicles();
 
         // Update an existing vehicle record
-        void updateVehicle(int oldYear, const std::string& oldMake, const std::string& oldModel, const std::string& oldFuel, int newYear, const std::string& newMake, const std::string& newModel, const std::string& newFuel);
+        void updateVehicle(int id, int newYear, const std::string& newMake, const std::string& newModel, const std::string& newFuel);
 
         // Delete a vehicle record
-        void deleteVehicle(int year, const std::string& make, const std::string& model, const std::string& fuel);
+        void deleteVehicle(int id, int year, const std::string& make, const std::string& model, const std::string& fuel);
 
         //Delete all vehicles recorded
         void deleteAllVehicles();

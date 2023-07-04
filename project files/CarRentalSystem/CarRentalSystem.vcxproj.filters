@@ -84,5 +84,8 @@
     <Text Include="Vehicles.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="IdCounter.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

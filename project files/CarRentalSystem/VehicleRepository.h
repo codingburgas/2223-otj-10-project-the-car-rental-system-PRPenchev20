@@ -20,7 +20,7 @@ class VehicleRepository
 
 
         // Create a new vehicle record
-        void addVehicle(const VehicleModel& vehicle);
+        void addVehicle(VehicleModel& vehicle);
 
 
         // Read all vehicle records from the file
@@ -28,7 +28,7 @@ class VehicleRepository
         
 
         // Update an existing vehicle record
-        void updateVehicle(const VehicleModel& oldVehicle, const VehicleModel& newVehicle);
+        void updateVehicle(const VehicleModel& newVehicle);
 
 
         // Delete a vehicle record

@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include "VehicleRepository.h"
+#include "VehicleModel.h"
 
 // Constructor
 VehicleRepository::VehicleRepository(const std::string& filename) 
@@ -14,12 +15,56 @@ VehicleRepository::VehicleRepository(const std::string& filename)
 }
 
 // Create a new vehicle record
-void VehicleRepository::addVehicle(const VehicleModel& vehicle) 
+void VehicleRepository::addVehicle(VehicleModel& vehicle) 
 {
     std::ofstream file(filename, std::ios::app);
+    std::fstream counterFile("IdCounter.txt", std::ios::in | std::ios::out);
+    int number;
+    
+
+    if (counterFile.is_open())
+    {
+        bool isEmpty = (counterFile.peek() == std::ifstream::traits_type::eof());
+
+        if (isEmpty)
+        {
+            counterFile << "0";
+            std::cout << "Zero has been written to the file." << std::endl;
+        }
+        std::string line;
+
+        // Read the number from the file
+        if (std::getline(counterFile, line))
+        {
+            std::istringstream iss(line);
+            if (iss >> number) 
+            {
+                // Increment the number by 1
+                int newNumber = number + 1;
+
+                // Move the file pointer to the beginning of the file
+                counterFile.seekg(0);
+
+                // Write the new number to the file, overwriting the existing number
+                counterFile << newNumber;
+
+            }
+        }
+        else
+        {
+            std::cout << "Failed to open file." << std::endl;
+        }
+
+        counterFile.close();
+
+    }
+
+    
+
     if (file.is_open()) 
     {
-        file << vehicle.getYear() << "," << vehicle.getMake() << "," << vehicle.getModel() << "," << vehicle.getFuel() << std::endl;
+        vehicle.setId(number);
+        file << number << "," << vehicle.getManufacturer() << "," << vehicle.getModel() << "," << vehicle.getFuel() << "," << vehicle.getYear() << std::endl;
         file.close();
 
         std::cout << "Vehicle record created successfully." << std::endl;
@@ -43,22 +88,31 @@ std::vector<VehicleModel> VehicleRepository::getVehicles()
         while (std::getline(file, line)) 
         {
             std::stringstream lineString(line);
+            
+            
             std::string token;
 
+            int id = 0;
             std::getline(lineString, token, ',');
-            int yearInt = 0;
-            std::stringstream(token) >> yearInt;
+            std::stringstream(token) >> id;
 
             std::getline(lineString, token, ',');
-            std::string make = token;
+            std::string manufacturer = token;
 
             std::getline(lineString, token, ',');
             std::string model = token;
 
-            std::getline(lineString, token);
-            std::string fuel = token;
 
-            VehicleModel vehicle(yearInt, make, model, fuel);
+            std::getline(lineString, token, ',');
+            std::string fuel = token;
+            
+            
+            int yearInt = 0;
+
+            std::getline(lineString, token);
+            std::stringstream(token) >> yearInt;
+
+            VehicleModel vehicle(id, yearInt, manufacturer, model, fuel);
             vehicles.push_back(vehicle);
         }
         file.close();
@@ -73,7 +127,7 @@ std::vector<VehicleModel> VehicleRepository::getVehicles()
 
 
 // Update an existing vehicle record
-void VehicleRepository::updateVehicle(const VehicleModel& oldVehicle, const VehicleModel& newVehicle)
+void VehicleRepository::updateVehicle(const VehicleModel& newVehicle)
 {
     std::ifstream fileIn(filename);
 
@@ -90,27 +144,25 @@ void VehicleRepository::updateVehicle(const VehicleModel& oldVehicle, const Vehi
                 std::stringstream lineString(line);
                 std::string token;
 
-                std::getline(lineString, token, ',');
-                int yearInt = 0;
-                std::stringstream(token) >> yearInt;
 
                 std::getline(lineString, token, ',');
-                std::string make = token;
+                std::string manufacturer = token;
 
                 std::getline(lineString, token, ',');
                 std::string model = token;
 
+                std::getline(lineString, token, ',');
                 std::getline(lineString, token);
                 std::string fuel = token;
 
-                VehicleModel currentVehicle(yearInt, make, model, fuel);
+                int yearInt = 0;
+                std::stringstream(token) >> yearInt;
 
-                if (currentVehicle.getYear() == oldVehicle.getYear() &&
-                    currentVehicle.getMake() == oldVehicle.getMake() &&
-                    currentVehicle.getModel() == oldVehicle.getModel() &&
-                    currentVehicle.getFuel() == oldVehicle.getFuel())
+                VehicleModel currentVehicle(newVehicle.getId(), yearInt, manufacturer, model, fuel);
+
+                if (currentVehicle.getId() == newVehicle.getId())
                 {
-                    fileOut << newVehicle.getYear() << "," << newVehicle.getMake() << "," << newVehicle.getModel() << "," << newVehicle.getFuel() << std::endl;
+                    fileOut << newVehicle.getId() <<  "," << newVehicle.getManufacturer() << "," << newVehicle.getModel() << "," << newVehicle.getFuel() << "," << newVehicle.getYear() << std::endl;
 
                     std::cout << "Vehicle record updated successfully." << std::endl;
                 }
@@ -137,6 +189,7 @@ void VehicleRepository::updateVehicle(const VehicleModel& oldVehicle, const Vehi
 
 void VehicleRepository::removeAllVehicles()
 {
+    system("cls");
     std::ifstream fileIn("Vehicles.txt");
 
     if (fileIn.is_open())
@@ -152,7 +205,7 @@ void VehicleRepository::removeAllVehicles()
             {
                 anyVehicleDeleted = true; // Set the flag to true
 
-                std::cout << "Vehicle record deleted: " << line << std::endl;
+                std::cout << "|   Vehicle record deleted: " << line << std::endl;
             }
 
             fileIn.close();
@@ -162,11 +215,11 @@ void VehicleRepository::removeAllVehicles()
 
             if (anyVehicleDeleted)
             {
-                std::cout << "All vehicle records deleted successfully." << std::endl;
+                std::cout << "|\n|   All vehicle records deleted successfully!" << std::endl;
             }
             else
             {
-                std::cout << "No vehicle records found." << std::endl;
+                std::cout << "No vehicle records found!" << std::endl;
             }
         }
         else
@@ -198,26 +251,27 @@ void VehicleRepository::removeVehicle(const VehicleModel& vehicle)
                 std::stringstream lineString(line);
                 std::string token;
 
+                
+                int id = 0;
                 std::getline(lineString, token, ',');
-                int yearInt = 0;
-                std::stringstream(token) >> yearInt;
+                std::stringstream(token) >> id;
 
                 std::getline(lineString, token, ',');
-                std::string make = token;
+                std::string manufacturer = token;
 
                 std::getline(lineString, token, ',');
                 std::string model = token;
 
-                std::getline(lineString, token);
+                std::getline(lineString, token, ',');
                 std::string fuel = token;
 
+                int yearInt = 0;
+                std::getline(lineString, token);
+                std::stringstream(token) >> yearInt;
 
-                VehicleModel currentVehicle(yearInt, make, model, fuel);
+                VehicleModel currentVehicle(id, yearInt, manufacturer, model, fuel);
 
-                if (currentVehicle.getYear() != vehicle.getYear() ||
-                    currentVehicle.getMake() != vehicle.getMake() ||
-                    currentVehicle.getModel() != vehicle.getModel() ||
-                    currentVehicle.getFuel() != vehicle.getFuel()) 
+                if (currentVehicle.getId() != vehicle.getId())
                 {
                     fileOut << line << std::endl;
                 }
