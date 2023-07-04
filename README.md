@@ -2,7 +2,6 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Car Rental System</title>
 </head>
 <body>
   <h1>Car Rental System</h1>
@@ -47,7 +46,7 @@
   </ol>
 
   <h2>Source Code</h2>
-  <p>The source code for this project can be found in the <a href="src">src</a> directory.</p>
+  <p>The source code for this project can be found in the <a href="https://github.com/codingburgas/2223-otj-10-project-the-car-rental-system-PRPenchev20/blob/main/project%20files/CarRentalSystem/Source.cpp">src</a> directory.</p>
 
   <h2>Contributors</h2>
   <ul>
