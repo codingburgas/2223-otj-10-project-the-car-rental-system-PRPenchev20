@@ -168,7 +168,8 @@ void VehicleRepository::updateVehicle(const VehicleModel& newVehicle)
                 {
                     fileOut << newVehicle.getId() <<  "," << newVehicle.getManufacturer() << "," << newVehicle.getModel() << "," << newVehicle.getFuel() << "," << newVehicle.getYear() << std::endl;
 
-                    std::cout << "|\n|    Vehicle record updated successfully." << std::endl;
+                    std::cout << "|\n|";
+                    std::cout << "    Vehicle record updated successfully." << std::endl;
                 }
                 else 
                 {
@@ -225,6 +226,8 @@ void VehicleRepository::removeAllVehicles()
             }
             else
             {
+
+                std::cout << "|-------------------------------------|\n";
                 std::cout << "|\n|\n|    No vehicle records found!" << std::endl;
             }
         }
@@ -283,7 +286,7 @@ void VehicleRepository::removeVehicle(const VehicleModel& vehicle)
                 }
                 else 
                 {
-                    std::cout << "Vehicle record deleted successfully." << std::endl;
+                    std::cout << "|\n|    Vehicle record deleted successfully." << std::endl;
                 }
             }
             fileIn.close();

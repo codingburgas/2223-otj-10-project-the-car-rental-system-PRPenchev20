@@ -89,70 +89,87 @@ void VehicleController::run()
         }
         case 3: 
         {
+            std::vector<VehicleModel> vehicles = service.getAllVehicles();
             system("cls");
-            int id, newYear;
-            std::string newManufacturer, newModel, newFuel;
+            std::cout << "|-------------------------------------|\n";
+            if (vehicles.empty())
+            {
+                std::cout << "|\n|    No vehicles found!" << std::endl;
 
-            std::cout << "|------------------------------------------------|\n";
-            std::cout << "|    Enter the details of the vehicle to update! |" << std::endl;
-            std::cout << "|------------------------------------------------|\n";
+            }
+            else
+            {
+                int id, newYear;
+                std::string newManufacturer, newModel, newFuel;
 
-            
-            std::cout << "|    Enter vehicle's id: ";
-            std::cin >> id;
+                std::cout << "|------------------------------------------------|\n";
+                std::cout << "|    Enter the details of the vehicle to update! |" << std::endl;
+                std::cout << "|------------------------------------------------|\n";
 
 
-            std::cout << "|\n|    Enter new manufacturer: ";
-            std::cin.ignore();
-            std::getline(std::cin, newManufacturer);
+                std::cout << "|    Enter vehicle's id: ";
+                std::cin >> id;
 
-            std::cout << "|    Enter new model: ";
-            std::getline(std::cin, newModel);
 
-            std::cout << "|    Enter new fuel: ";
-            std::getline(std::cin, newFuel);
+                std::cout << "|\n|    Enter new manufacturer: ";
+                std::cin.ignore();
+                std::getline(std::cin, newManufacturer);
 
-            std::cout << "|    Enter new year: ";
-            std::cin >> newYear;
-            std::cout << "|\n";
-            service.updateVehicle(id, newYear, newManufacturer, newModel, newFuel);
-            
-            std::cout << "|\n";
-            std::cout << "|    \n|    \n|    ";
+                std::cout << "|    Enter new model: ";
+                std::getline(std::cin, newModel);
+
+                std::cout << "|    Enter new fuel: ";
+                std::getline(std::cin, newFuel);
+
+                std::cout << "|    Enter new year: ";
+                std::cin >> newYear;
+                std::cout << "|\n";
+                service.updateVehicle(id, newYear, newManufacturer, newModel, newFuel);
+
+                std::cout << "|\n";
+            }
+
+            std::cout << "|    ";
             system("pause");
             break;
         }
         case 4: 
         {
+            std::vector<VehicleModel> vehicles = service.getAllVehicles();
             system("cls");
-            int id, year;
-            std::string manufacturer, model, fuel;
+            std::cout << "|-------------------------------------|\n";
 
-            std::cout << "|-------------------------\n";
-            std::cout << "|  Enter the id of the vehicle to delete: ";
-            std::cin >> id;
+            if (vehicles.empty())
+            {
+                std::cout << "|\n|    No vehicles found!" << std::endl;
+            }
+            else
+            {
+                int id, year;
+                std::string manufacturer, model, fuel;
 
-            std::cout << "|\n|  Now enter the vehicle's parameters!\n";
+                std::cout << "|    Enter the id of the vehicle to delete: ";
+                std::cin >> id;
 
-            std::cout << "|  Enter manufacturer: ";
-            std::cin.ignore();
-            std::getline(std::cin, manufacturer);
-
-            std::cout << "|  Enter model: ";
-            std::getline(std::cin, model);
-
-            std::cout << "|  Enter fuel: ";
-            std::getline(std::cin, fuel);
-
-            std::cout << "|  Enter year: ";
-            std::cin >> year;
-
-            service.deleteVehicle(id, year, manufacturer, model, fuel);
-
+                for (auto v : vehicles) 
+                {
+                    if (id == v.getId())
+                    {
+                        manufacturer = v.getManufacturer();
+                        model = v.getModel();
+                        fuel = v.getFuel();
+                        year = v.getYear();
+                    }
+                }
+                service.deleteVehicle(id, year, manufacturer, model, fuel);
+            }
+            std::cout << "|    ";
+            system("pause");
             break;
         }
         case 5:
         {
+
             service.deleteAllVehicles();
 
             std::cout << "|    ";
